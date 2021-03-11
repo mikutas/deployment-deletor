@@ -71,7 +71,7 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	lastDeleted := &appsv1.Deployment{}
+	var lastDeleted *appsv1.Deployment
 	for _, namespace := range namespaces.Items {
 		var deployment appsv1.Deployment
 		target := types.NamespacedName{
@@ -91,6 +91,11 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "Deleted", "Deleted deployment %q", deployment.Name)
 			lastDeleted = deployment.DeepCopy()
 		}
+	}
+
+	if lastDeleted == nil {
+		log.Info("nothing is deleted in this reconciliation")
+		return ctrl.Result{}, nil
 	}
 
 	maxage.Status.LastDeletedDeployment = *lastDeleted.ObjectMeta.DeepCopy()
