@@ -92,6 +92,8 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			log.Info("deleted Deployment")
 			r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "Deleted", "Deleted deployment %q", deployment.Name)
 			lastDeleted = deployment.DeepCopy()
+		} else {
+			log.Info("need not to delete")
 		}
 	}
 
