@@ -44,7 +44,7 @@ type DeploymentMaxAgeReconciler struct {
 // +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups="",resources=namespaces,verbs=list
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;delete
-// +kubebuilder:rbac:groups="",resources=events,verbs=create,patch
+// +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
 
 func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
