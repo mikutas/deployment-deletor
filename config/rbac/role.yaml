@@ -19,6 +19,7 @@ rules:
   - namespaces
   verbs:
   - list
+  - watch
 - apiGroups:
   - apps
   resources:
@@ -26,6 +27,7 @@ rules:
   verbs:
   - delete
   - get
+  - list
 - apiGroups:
   - tkms0106.example.com
   resources:
