@@ -87,6 +87,7 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			if err := r.Delete(ctx, &deployment); err != nil {
 				log.Error(err, "unable to delete Deployment")
 				r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "FailedDeleting", "Failed to delete deployment %q", deployment.Name)
+				continue
 			}
 			log.Info("deleted Deployment")
 			r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "Deleted", "Deleted deployment %q", deployment.Name)
