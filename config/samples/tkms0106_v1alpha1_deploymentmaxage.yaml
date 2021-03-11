@@ -2,6 +2,7 @@ apiVersion: tkms0106.example.com/v1alpha1
 kind: DeploymentMaxAge
 metadata:
   name: deploymentmaxage-sample
+  namespace: laboratory
 spec:
   deploymentName: mysql-client
   maxAge: 1m
