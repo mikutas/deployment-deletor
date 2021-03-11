@@ -117,5 +117,5 @@ func (r *DeploymentMaxAgeReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 
 func exceedsMaxAge(deployment *appsv1.Deployment, duration time.Duration) bool {
-	return deployment.CreationTimestamp.Add(duration).After(time.Now().UTC())
+	return deployment.CreationTimestamp.Add(duration).Before(time.Now().UTC())
 }
