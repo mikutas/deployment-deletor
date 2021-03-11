@@ -28,6 +28,7 @@ rules:
   - delete
   - get
   - list
+  - watch
 - apiGroups:
   - tkms0106.example.com
   resources:
