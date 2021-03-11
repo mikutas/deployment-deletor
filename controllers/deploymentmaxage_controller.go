@@ -40,7 +40,7 @@ type DeploymentMaxAgeReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages,verbs=get;list;watch;update;patch
 // +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups="",resources=namespaces,verbs=list
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;delete

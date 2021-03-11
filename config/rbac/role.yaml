@@ -31,8 +31,6 @@ rules:
   resources:
   - deploymentmaxages
   verbs:
-  - create
-  - delete
   - get
   - list
   - patch
