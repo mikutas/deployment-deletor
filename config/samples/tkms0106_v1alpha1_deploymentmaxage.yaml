@@ -1,0 +1,7 @@
+apiVersion: tkms0106.example.com/v1alpha1
+kind: DeploymentMaxAge
+metadata:
+  name: deploymentmaxage-sample
+spec:
+  # Add fields here
+  foo: bar

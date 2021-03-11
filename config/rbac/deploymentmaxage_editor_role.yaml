@@ -1,0 +1,24 @@
+# permissions for end users to edit deploymentmaxages.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: deploymentmaxage-editor-role
+rules:
+- apiGroups:
+  - tkms0106.example.com
+  resources:
+  - deploymentmaxages
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - tkms0106.example.com
+  resources:
+  - deploymentmaxages/status
+  verbs:
+  - get
