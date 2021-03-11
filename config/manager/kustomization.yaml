@@ -5,4 +5,4 @@ kind: Kustomization
 images:
 - name: controller
   newName: ghcr.io/tkms0106/deployment-deletor
-  newTag: v0.0.1-1-gf21b219
+  newTag: v0.0.1
