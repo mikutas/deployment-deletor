@@ -28,17 +28,26 @@ type DeploymentMaxAgeSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of DeploymentMaxAge. Edit DeploymentMaxAge_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Format=string
+	DeploymentName string `json:"deploymentName"`
+
+	// +kubebuilder:validation:Required
+	// +kubebuilder:validation:Format=string
+	MaxAge string `json:"maxAge"`
 }
 
 // DeploymentMaxAgeStatus defines the observed state of DeploymentMaxAge
 type DeploymentMaxAgeStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +optional
+	LastDeletedDeployment metav1.ObjectMeta `json:"lastDeletedDeployment"`
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
 
 // DeploymentMaxAge is the Schema for the deploymentmaxages API
 type DeploymentMaxAge struct {
