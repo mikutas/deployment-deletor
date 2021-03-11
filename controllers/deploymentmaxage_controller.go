@@ -79,7 +79,7 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 			Name:      maxage.Spec.DeploymentName,
 		}
 		if err := r.Get(ctx, target, &deployment); err != nil {
-			log.Error(err, "unable to fetch Deployment")
+			log.Info("unable to fetch Deployment", "in "+target.Namespace, err.Error())
 			continue
 		}
 		if exceedsMaxAge(&deployment, duration) {
@@ -89,11 +89,11 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 				r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "FailedDeleting", "Failed to delete deployment %q", deployment.Name)
 				continue
 			}
-			log.Info("deleted Deployment")
+			log.Info("deleted Deployment", "in: "+target.Namespace, target.Name)
 			r.Recorder.Eventf(&maxage, v1.EventTypeNormal, "Deleted", "Deleted deployment %q", deployment.Name)
 			lastDeleted = deployment.DeepCopy()
 		} else {
-			log.Info("need not to delete")
+			log.Info("need not to delete", "in: "+target.Namespace, target.Name)
 		}
 	}
 
