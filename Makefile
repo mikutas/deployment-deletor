@@ -1,6 +1,6 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= deployment-deletor:latest
+IMG ?= ghcr.io/tkms0106/deployment-deletor:$(shell git describe --tags)
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
@@ -68,6 +68,7 @@ docker-build: test
 
 # Push the docker image
 docker-push:
+	echo $(CR_PAT) | docker login ghcr.io -u USERNAME --password-stdin
 	docker push ${IMG}
 
 # find or download controller-gen
