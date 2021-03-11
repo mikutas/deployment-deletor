@@ -13,6 +13,9 @@ spec:
     kind: DeploymentMaxAge
     listKind: DeploymentMaxAgeList
     plural: deploymentmaxages
+    shortNames:
+    - deploymaxage
+    - deploymaxages
     singular: deploymentmaxage
   scope: Namespaced
   subresources:

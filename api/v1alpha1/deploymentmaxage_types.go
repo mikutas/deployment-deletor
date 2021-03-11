@@ -47,6 +47,7 @@ type DeploymentMaxAgeStatus struct {
 }
 
 // +kubebuilder:object:root=true
+// +kubebuilder:resource:shortName=deploymaxage;deploymaxages
 // +kubebuilder:subresource:status
 
 // DeploymentMaxAge is the Schema for the deploymentmaxages API
