@@ -5,6 +5,12 @@
 - make
 - kustomize
 
+## Install CRD
+
+```
+make install
+```
+
 ## Deploy
 
 ```
@@ -15,4 +21,10 @@ make deploy
 
 ```
 make delete
+```
+
+## Uninstall CRD
+
+```
+make uninstall
 ```
