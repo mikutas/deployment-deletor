@@ -1,6 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= ghcr.io/mikutas/deployment-deletor:$(shell git describe --abbrev=0 --tags)
+LOCAL_IMG ?= localhost:5000/deployment-deletor:$(shell git describe --tags)
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
@@ -42,8 +43,16 @@ deploy: manifests
 	cd config/manager && kustomize edit set image controller=${IMG}
 	kustomize build config/default | kubectl apply -f -
 
+deploy-local: manifests
+	cd config/manager && kustomize edit set image controller=${LOCAL_IMG}
+	kustomize build config/default | kubectl apply -f -	
+
 delete: manifests
 	cd config/manager && kustomize edit set image controller=${IMG}
+	kustomize build config/default | kubectl delete -f -
+
+delete-local: manifests
+	cd config/manager && kustomize edit set image controller=${LOCAL_IMG}
 	kustomize build config/default | kubectl delete -f -
 
 # Generate manifests e.g. CRD, RBAC etc.
@@ -66,10 +75,16 @@ generate: controller-gen
 docker-build: test
 	docker build . -t ${IMG}
 
+docker-build-local: test
+	docker build . -t ${LOCAL_IMG}
+
 # Push the docker image
 docker-push:
 	echo $(CR_PAT) | docker login ghcr.io -u USERNAME --password-stdin
 	docker push ${IMG}
+
+docker-push-local:
+	docker push ${LOCAL_IMG}
 
 # find or download controller-gen
 # download controller-gen if necessary
