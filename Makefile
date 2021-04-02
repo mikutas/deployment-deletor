@@ -1,6 +1,6 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= ghcr.io/tkms0106/deployment-deletor:$(shell git describe --abbrev=0 --tags)
+IMG ?= ghcr.io/mikutas/deployment-deletor:$(shell git describe --abbrev=0 --tags)
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true"
 
