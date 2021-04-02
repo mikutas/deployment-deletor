@@ -87,3 +87,6 @@ CONTROLLER_GEN=$(GOBIN)/controller-gen
 else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
+
+cluster:
+	./kind-with-registry.sh
