@@ -8,3 +8,8 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "golang"
+        versions:
+          - "1.16"
+          - "1.16.x"
