@@ -103,5 +103,11 @@ else
 CONTROLLER_GEN=$(shell which controller-gen)
 endif
 
+REG_NAME="kind-registry"
+
 cluster:
-	./kind-with-registry.sh
+	./kind-with-registry.sh $(REG_NAME)
+
+cluster-off:
+	kind delete cluster
+	docker stop $(REG_NAME)
