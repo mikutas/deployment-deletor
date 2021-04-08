@@ -6,9 +6,9 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.2.5
   creationTimestamp: null
-  name: deploymentmaxages.tkms0106.example.com
+  name: deploymentmaxages.mikutas.example.com
 spec:
-  group: tkms0106.example.com
+  group: mikutas.example.com
   names:
     kind: DeploymentMaxAge
     listKind: DeploymentMaxAgeList

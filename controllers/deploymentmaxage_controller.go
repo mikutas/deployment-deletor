@@ -29,7 +29,7 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	tkms0106v1alpha1 "github.com/tkms0106/deployment-deletor/api/v1alpha1"
+	mikutasv1alpha1 "github.com/mikutas/deployment-deletor/api/v1alpha1"
 )
 
 // DeploymentMaxAgeReconciler reconciles a DeploymentMaxAge object
@@ -40,8 +40,8 @@ type DeploymentMaxAgeReconciler struct {
 	Recorder record.EventRecorder
 }
 
-// +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages,verbs=get;list;watch;update;patch
-// +kubebuilder:rbac:groups=tkms0106.example.com,resources=deploymentmaxages/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=mikutas.example.com,resources=deploymentmaxages,verbs=get;list;watch;update;patch
+// +kubebuilder:rbac:groups=mikutas.example.com,resources=deploymentmaxages/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups="",resources=namespaces,verbs=list;watch
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;delete
 // +kubebuilder:rbac:groups="",resources=events,verbs=create;patch
@@ -52,7 +52,7 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 
 	// your logic here
 
-	var maxage tkms0106v1alpha1.DeploymentMaxAge
+	var maxage mikutasv1alpha1.DeploymentMaxAge
 	log.Info("fetching DeploymentMaxAge Resource")
 	if err := r.Get(ctx, req.NamespacedName, &maxage); err != nil {
 		log.Error(err, "unable to fetch DeploymentMaxAge")
@@ -114,7 +114,7 @@ func (r *DeploymentMaxAgeReconciler) Reconcile(req ctrl.Request) (ctrl.Result, e
 
 func (r *DeploymentMaxAgeReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
-		For(&tkms0106v1alpha1.DeploymentMaxAge{}).
+		For(&mikutasv1alpha1.DeploymentMaxAge{}).
 		Complete(r)
 }
 

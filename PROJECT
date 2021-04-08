@@ -1,7 +1,7 @@
 domain: example.com
-repo: github.com/tkms0106/deployment-deletor
+repo: github.com/mikutas/deployment-deletor
 resources:
-- group: tkms0106
+- group: mikutas
   kind: DeploymentMaxAge
   version: v1alpha1
 version: "2"

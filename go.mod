@@ -1,4 +1,4 @@
-module github.com/tkms0106/deployment-deletor
+module github.com/mikutas/deployment-deletor
 
 go 1.13
 

@@ -1,4 +1,4 @@
-apiVersion: tkms0106.example.com/v1alpha1
+apiVersion: mikutas.example.com/v1alpha1
 kind: DeploymentMaxAge
 metadata:
   name: deploymentmaxage-sample

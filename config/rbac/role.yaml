@@ -30,7 +30,7 @@ rules:
   - list
   - watch
 - apiGroups:
-  - tkms0106.example.com
+  - mikutas.example.com
   resources:
   - deploymentmaxages
   verbs:
@@ -40,7 +40,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - tkms0106.example.com
+  - mikutas.example.com
   resources:
   - deploymentmaxages/status
   verbs:
