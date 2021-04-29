@@ -1,0 +1,6 @@
+domain: example.com
+layout:
+- go.kubebuilder.io/v3
+projectName: deployment-deletor
+repo: github.com/mikutas/deployment-deletor
+version: "3"
