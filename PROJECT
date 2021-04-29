@@ -3,4 +3,14 @@ layout:
 - go.kubebuilder.io/v3
 projectName: deployment-deletor
 repo: github.com/mikutas/deployment-deletor
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: example.com
+  group: mikutas
+  kind: DeploymentMaxAge
+  path: github.com/mikutas/deployment-deletor/api/v1alpha1
+  version: v1alpha1
 version: "3"
