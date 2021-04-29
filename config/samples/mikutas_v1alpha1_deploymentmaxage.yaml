@@ -2,6 +2,7 @@ apiVersion: mikutas.example.com/v1alpha1
 kind: DeploymentMaxAge
 metadata:
   name: deploymentmaxage-sample
+  namespace: laboratory
 spec:
-  # Add fields here
-  foo: bar
+  deploymentName: mysql-client
+  maxAge: 1m
