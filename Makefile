@@ -1,6 +1,7 @@
 
 # Image URL to use all building/pushing image targets
-IMG ?= controller:latest
+IMG ?= ghcr.io/mikutas/deployment-deletor:$(shell git describe --abbrev=0 --tags)
+LOCAL_IMG ?= localhost:5000/deployment-deletor:$(shell git describe --tags)
 # Produce CRDs that work back to Kubernetes 1.11 (no version conversion)
 CRD_OPTIONS ?= "crd:trivialVersions=true,preserveUnknownFields=false"
 
@@ -66,8 +67,15 @@ run: manifests generate fmt vet ## Run a controller from your host.
 docker-build: test ## Build docker image with the manager.
 	docker build -t ${IMG} .
 
+docker-build-local: test
+	docker build . -t ${LOCAL_IMG}
+
 docker-push: ## Push docker image with the manager.
+	echo $(CR_PAT) | docker login ghcr.io -u USERNAME --password-stdin
 	docker push ${IMG}
+
+docker-push-local:
+	docker push ${LOCAL_IMG}
 
 ##@ Deployment
 
@@ -79,6 +87,10 @@ uninstall: manifests kustomize ## Uninstall CRDs from the K8s cluster specified 
 
 deploy: manifests kustomize ## Deploy controller to the K8s cluster specified in ~/.kube/config.
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
+	$(KUSTOMIZE) build config/default | kubectl apply -f -
+
+deploy-local: manifests kustomize ## Deploy local-built controller to the K8s cluster specified in ~/.kube/config.
+	cd config/manager && $(KUSTOMIZE) edit set image controller=${LOCAL_IMG}
 	$(KUSTOMIZE) build config/default | kubectl apply -f -
 
 undeploy: ## Undeploy controller from the K8s cluster specified in ~/.kube/config.
@@ -106,3 +118,12 @@ GOBIN=$(PROJECT_DIR)/bin go get $(2) ;\
 rm -rf $$TMP_DIR ;\
 }
 endef
+
+REG_NAME="kind-registry"
+
+cluster:
+	./kind-with-registry.sh $(REG_NAME)
+
+cluster-off:
+	kind delete cluster
+	docker stop $(REG_NAME)

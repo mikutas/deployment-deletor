@@ -1,0 +1,21 @@
+apiVersion:  apps/v1
+kind: Deployment
+metadata:
+  name: mysql-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql-client
+  template:
+    metadata:
+      labels:
+        app: mysql-client
+    spec:
+      containers:
+      - name: mysql-client
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: password
+#      nodeSelector:
