@@ -6,23 +6,20 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.4.1
   creationTimestamp: null
-  name: deploymentmaxages.mikutas.example.com
+  name: deploymentdeletors.mikutas.example.com
 spec:
   group: mikutas.example.com
   names:
-    kind: DeploymentMaxAge
-    listKind: DeploymentMaxAgeList
-    plural: deploymentmaxages
-    shortNames:
-    - deploymaxage
-    - deploymaxages
-    singular: deploymentmaxage
+    kind: DeploymentDeletor
+    listKind: DeploymentDeletorList
+    plural: deploymentdeletors
+    singular: deploymentdeletor
   scope: Namespaced
   versions:
   - name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: DeploymentMaxAge is the Schema for the deploymentmaxages API
+        description: DeploymentDeletor is the Schema for the deploymentdeletors API
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation
@@ -37,7 +34,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: DeploymentMaxAgeSpec defines the desired state of DeploymentMaxAge
+            description: DeploymentDeletorSpec defines the desired state of DeploymentDeletor
             properties:
               deploymentName:
                 format: string
@@ -50,7 +47,7 @@ spec:
             - maxAge
             type: object
           status:
-            description: DeploymentMaxAgeStatus defines the observed state of DeploymentMaxAge
+            description: DeploymentDeletorStatus defines the observed state of DeploymentDeletor
             properties:
               lastDeletedDeployment:
                 type: object

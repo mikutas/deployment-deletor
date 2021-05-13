@@ -32,8 +32,9 @@ rules:
 - apiGroups:
   - mikutas.example.com
   resources:
-  - deploymentmaxages
+  - deploymentdeletors
   verbs:
+  - create
   - get
   - list
   - patch
@@ -42,7 +43,13 @@ rules:
 - apiGroups:
   - mikutas.example.com
   resources:
-  - deploymentmaxages/status
+  - deploymentdeletors/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - mikutas.example.com
+  resources:
+  - deploymentdeletors/status
   verbs:
   - get
   - patch

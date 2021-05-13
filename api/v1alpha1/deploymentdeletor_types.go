@@ -28,17 +28,26 @@ type DeploymentDeletorSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
-	// Foo is an example field of DeploymentDeletor. Edit deploymentdeletor_types.go to remove/update
-	Foo string `json:"foo,omitempty"`
+	//+kubebuilder:validation:Required
+	//+kubebuilder:validation:Format=string
+	DeploymentName string `json:"deploymentName"`
+
+	//+kubebuilder:validation:Required
+	//+kubebuilder:validation:Format=string
+	MaxAge string `json:"maxAge"`
 }
 
 // DeploymentDeletorStatus defines the observed state of DeploymentDeletor
 type DeploymentDeletorStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
+
+	// +optional
+	LastDeletedDeployment metav1.ObjectMeta `json:"lastDeletedDeployment"`
 }
 
 //+kubebuilder:object:root=true
+//+kubebuilder:resource:shortName=dd;dds
 //+kubebuilder:subresource:status
 
 // DeploymentDeletor is the Schema for the deploymentdeletors API
