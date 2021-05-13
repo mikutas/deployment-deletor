@@ -1,0 +1,24 @@
+# permissions for end users to edit deploymentdeletors.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: deploymentdeletor-editor-role
+rules:
+- apiGroups:
+  - mikutas.example.com
+  resources:
+  - deploymentdeletors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - mikutas.example.com
+  resources:
+  - deploymentdeletors/status
+  verbs:
+  - get
