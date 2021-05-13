@@ -2,8 +2,7 @@
 
 ## Requirements
 
-- make
-- kustomize
+Go < 1.16
 
 ## Install CRD
 
