@@ -1,7 +1,7 @@
 apiVersion: mikutas.example.com/v1alpha1
 kind: DeploymentDeletor
 metadata:
-  name: deploymentmaxage-sample
+  name: deploymentdeletor-sample
   namespace: laboratory
 spec:
   deploymentName: mysql-client
