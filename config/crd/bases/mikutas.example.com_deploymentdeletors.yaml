@@ -13,6 +13,9 @@ spec:
     kind: DeploymentDeletor
     listKind: DeploymentDeletorList
     plural: deploymentdeletors
+    shortNames:
+    - dd
+    - dds
     singular: deploymentdeletor
   scope: Namespaced
   versions:
