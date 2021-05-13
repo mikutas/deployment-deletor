@@ -1,0 +1,7 @@
+apiVersion: mikutas.example.com/v1alpha1
+kind: DeploymentDeletor
+metadata:
+  name: deploymentdeletor-sample
+spec:
+  # Add fields here
+  foo: bar
