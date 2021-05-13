@@ -81,19 +81,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err = (&controllers.DeploymentMaxAgeReconciler{
+	if err = (&controllers.DeploymentDeletorReconciler{
 		Client:   mgr.GetClient(),
-		Log:      ctrl.Log.WithName("controllers").WithName("DeploymentMaxAge"),
+		Log:      ctrl.Log.WithName("controllers").WithName("DeploymentDeletor"),
 		Scheme:   mgr.GetScheme(),
 		Recorder: mgr.GetEventRecorderFor("deployment-deletor"),
-	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "DeploymentMaxAge")
-		os.Exit(1)
-	}
-	if err = (&controllers.DeploymentDeletorReconciler{
-		Client: mgr.GetClient(),
-		Log:    ctrl.Log.WithName("controllers").WithName("DeploymentDeletor"),
-		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "DeploymentDeletor")
 		os.Exit(1)
