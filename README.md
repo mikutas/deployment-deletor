@@ -25,6 +25,8 @@ make undeploy
 
 ## Uninstall CRD
 
+`make undeploy` includes CRD uninstallation
+
 ```
 make uninstall
 ```
