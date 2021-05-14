@@ -1,8 +1,8 @@
 # deployment-deletor
 
-## Requirements
+## Prerequisites
 
-Go < 1.16
+https://github.com/kubernetes-sigs/kubebuilder/blob/book-v3/docs/book/src/quick-start.md#prerequisites
 
 ## Install CRD
 
