@@ -21,15 +21,14 @@ import (
 	"time"
 
 	"github.com/go-logr/logr"
+	mikutasv1alpha1 "github.com/mikutas/deployment-deletor/api/v1alpha1"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-
-	mikutasv1alpha1 "github.com/mikutas/deployment-deletor/api/v1alpha1"
 )
 
 // DeploymentDeletorReconciler reconciles a DeploymentDeletor object
@@ -74,35 +73,39 @@ func (r *DeploymentDeletorReconciler) Reconcile(ctx context.Context, req ctrl.Re
 		return ctrl.Result{}, err
 	}
 
-	var namespaces v1.NamespaceList
-	if err := r.List(ctx, &namespaces); err != nil {
-		log.Error(err, "unable to list Namespaces")
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+	labelSelector, err := metav1.LabelSelectorAsSelector(dd.Spec.Selector)
+	if err != nil {
+		log.Error(err, "unable to parse selector")
+		return ctrl.Result{}, err
 	}
+	log.Info("", "labelSelector", labelSelector)
+
+	var deployments appsv1.DeploymentList
+	if err := r.List(ctx, &deployments, &client.ListOptions{
+		LabelSelector: labelSelector,
+		Namespace:     dd.Spec.Deployment.Namespace,
+	}); err != nil {
+		log.Error(err, "unable to fetch deployments")
+	}
+	log.Info("", "deployments", deployments)
 
 	var lastDeleted *appsv1.Deployment
-	for _, namespace := range namespaces.Items {
-		var deployment appsv1.Deployment
-		target := types.NamespacedName{
-			Namespace: namespace.Name,
-			Name:      dd.Spec.DeploymentName,
-		}
-		if err := r.Get(ctx, target, &deployment); err != nil {
-			log.Info("unable to fetch Deployment", "in "+target.Namespace, err.Error())
+	for _, deployment := range deployments.Items {
+		if dd.Spec.Deployment.Name != "" && dd.Spec.Deployment.Name != deployment.Name {
 			continue
 		}
 		if exceedsMaxAge(&deployment, duration) {
-			log.Info("deleting Deployment", "in: "+target.Namespace, target.Name)
+			log.Info("deleting Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
 			if err := r.Delete(ctx, &deployment); err != nil {
 				log.Error(err, "unable to delete Deployment")
 				r.Recorder.Eventf(&dd, v1.EventTypeNormal, "FailedDeleting", "Failed to delete Deployment %q", deployment.Name)
 				continue
 			}
-			log.Info("deleted Deployment", "in: "+target.Namespace, target.Name)
+			log.Info("deleted Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
 			r.Recorder.Eventf(&dd, v1.EventTypeNormal, "Deleted", "Deleted Deployment %q", deployment.Name)
 			lastDeleted = deployment.DeepCopy()
 		} else {
-			log.Info("need not to delete", "in: "+target.Namespace, target.Name)
+			log.Info("this deployment needs not to delete", "namespace", deployment.Namespace, "name", deployment.Name)
 		}
 	}
 
@@ -113,10 +116,9 @@ func (r *DeploymentDeletorReconciler) Reconcile(ctx context.Context, req ctrl.Re
 
 	dd.Status.LastDeletedDeployment = *lastDeleted.ObjectMeta.DeepCopy()
 	if err := r.Status().Update(ctx, &dd); err != nil {
-		log.Error(err, "unable to update maxage status")
+		log.Error(err, "unable to update deploymentdeletor status")
 		return ctrl.Result{}, err
 	}
-	r.Recorder.Eventf(&dd, v1.EventTypeNormal, "Updated", "Update maxage.status.LastDeletedDeployment: %q", &dd.Status.LastDeletedDeployment.Name)
 
 	return ctrl.Result{}, nil
 }
