@@ -92,6 +92,7 @@ func (r *DeploymentDeletorReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	var lastDeleted *appsv1.Deployment
 	for _, deployment := range deployments.Items {
 		if dd.Spec.Deployment.Name != "" && dd.Spec.Deployment.Name != deployment.Name {
+			log.Info("Name not matched", "dd.Spec.Deployment.Name", dd.Spec.Deployment.Name, "deployment.Name", deployment.Name)
 			continue
 		}
 		if exceedsMaxAge(&deployment, duration) {
