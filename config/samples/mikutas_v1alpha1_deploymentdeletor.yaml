@@ -2,11 +2,12 @@ apiVersion: mikutas.example.com/v1alpha1
 kind: DeploymentDeletor
 metadata:
   name: deploymentdeletor-sample
-  namespace: laboratory
+  namespace: deployment-deletor-system
 spec:
-  maxAge: 1m
-  deployment: 
-    name: mysql-client
+  maxAge: 30s
+  #deployment:
+  #  name: mysql-client
+  #  namespace: default
   selector:
     matchLabels:
       app: mysql-client
