@@ -4,5 +4,9 @@ metadata:
   name: deploymentdeletor-sample
   namespace: laboratory
 spec:
-  deploymentName: mysql-client
   maxAge: 1m
+  deployment: 
+    name: mysql-client
+  selector:
+    matchLabels:
+      app: mysql-client
