@@ -23,6 +23,14 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
+type NamespacedName struct {
+	//+optional
+	Namespace string `json:"namespace"`
+
+	// +optional
+	Name string `json:"name"`
+}
+
 // DeploymentDeletorSpec defines the desired state of DeploymentDeletor
 type DeploymentDeletorSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
@@ -30,11 +38,13 @@ type DeploymentDeletorSpec struct {
 
 	//+kubebuilder:validation:Required
 	//+kubebuilder:validation:Format=string
-	DeploymentName string `json:"deploymentName"`
+	MaxAge string `json:"maxAge"`
+
+	//+optional
+	Deployment NamespacedName `json:"deployment"`
 
 	//+kubebuilder:validation:Required
-	//+kubebuilder:validation:Format=string
-	MaxAge string `json:"maxAge"`
+	Selector *metav1.LabelSelector `json:"selector"`
 }
 
 // DeploymentDeletorStatus defines the observed state of DeploymentDeletor
