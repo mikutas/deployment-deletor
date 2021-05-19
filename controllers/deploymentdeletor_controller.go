@@ -61,15 +61,15 @@ func (r *DeploymentDeletorReconciler) Reconcile(ctx context.Context, req ctrl.Re
 	// your logic here
 
 	var dd mikutasv1alpha1.DeploymentDeletor
-	log.Info("fetching DeploymentDeletor Resource")
+	log.Info("Fetching DeploymentDeletor Resource")
 	if err := r.Get(ctx, req.NamespacedName, &dd); err != nil {
-		log.Error(err, "unable to fetch DeploymentDeletor")
+		log.Error(err, "Inable to fetch DeploymentDeletor")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	duration, err := time.ParseDuration(dd.Spec.MaxAge)
 	if err != nil {
-		log.Error(err, "invalid maxAge field")
+		log.Error(err, "Invalid maxAge field")
 		return ctrl.Result{}, err
 	}
 
@@ -95,28 +95,28 @@ func (r *DeploymentDeletorReconciler) Reconcile(ctx context.Context, req ctrl.Re
 			continue
 		}
 		if exceedsMaxAge(&deployment, duration) {
-			log.Info("deleting Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
+			log.Info("Deleting Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
 			if err := r.Delete(ctx, &deployment); err != nil {
 				log.Error(err, "unable to delete Deployment")
 				r.Recorder.Eventf(&dd, v1.EventTypeNormal, "FailedDeleting", "Failed to delete Deployment %q", deployment.Name)
 				continue
 			}
-			log.Info("deleted Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
+			log.Info("Deleted Deployment", "namespace", deployment.Namespace, "name", deployment.Name)
 			r.Recorder.Eventf(&dd, v1.EventTypeNormal, "Deleted", "Deleted Deployment %q", deployment.Name)
 			lastDeleted = deployment.DeepCopy()
 		} else {
-			log.Info("this deployment needs not to delete", "namespace", deployment.Namespace, "name", deployment.Name)
+			log.Info("This Deployment needs not to delete", "namespace", deployment.Namespace, "name", deployment.Name)
 		}
 	}
 
 	if lastDeleted == nil {
-		log.Info("nothing is deleted in this reconciliation")
+		log.Info("Nothing is deleted in this reconciliation")
 		return ctrl.Result{}, nil
 	}
 
 	dd.Status.LastDeletedDeployment = *lastDeleted.ObjectMeta.DeepCopy()
 	if err := r.Status().Update(ctx, &dd); err != nil {
-		log.Error(err, "unable to update deploymentdeletor status")
+		log.Error(err, "Unable to update deploymentdeletor status")
 		return ctrl.Result{}, err
 	}
 
